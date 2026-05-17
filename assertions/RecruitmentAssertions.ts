@@ -12,13 +12,13 @@ export class RecruitmentAssertions{
     }
 
 
-    async verifyJobVacancyAdded(vacancyName: string, jobTitle: string, hiringManager: string){
-       await this.page.pause();
-       await expect(this.page.getByText(vacancyName)).toBeVisible();
-       await expect(this.page.getByText(jobTitle)).toBeVisible();
-       await expect(this.page.getByText(hiringManager, { exact: true })).toBeVisible();
-       await expect(this.page.getByRole('row', { name: vacancyName })).toBeVisible();
-       }
+    async verifyJobVacancyAdded(vacancyName: string, jobTitle: string, hiringManager: string) {
+        const row = this.page.locator('.oxd-table-card').filter({hasText: vacancyName});
+        await expect(row).toBeVisible();
+        await expect(row).toContainText(jobTitle);
+        await expect(row).toContainText(hiringManager);
+        await expect(row).toContainText('Active');
+}
        
     async verifyEmptyVacancyForm(){
        
